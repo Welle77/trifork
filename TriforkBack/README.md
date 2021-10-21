@@ -22,9 +22,3 @@ In visual studio go to Tools -> NuGet Package Manager -> Package Manager Console
 Update-Database
 
 Now you can run both projects, either from terminal or from Visual Studio (Without debugging)
-
-***FRONTEND***
-
-npm install
-
-npm start
