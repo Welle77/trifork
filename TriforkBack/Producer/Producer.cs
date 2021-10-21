@@ -18,13 +18,11 @@ namespace Producer
                     channel.QueueDeclare(queue: "logger", durable: true, exclusive: false, arguments: null);
                     var props = channel.CreateBasicProperties();
                     props.Persistent = true;
-
                     while (true)
                     {
                         string message = DateTime.Now.ToString();
                         var body = Encoding.UTF8.GetBytes(message);
                         channel.BasicPublish(exchange: "", routingKey: "logger", props, body: body);
-                        Console.WriteLine("Sent Date: {0}", message);
                         Thread.Sleep(5000);
                     }
                 }

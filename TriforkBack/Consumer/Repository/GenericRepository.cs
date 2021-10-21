@@ -1,45 +1,37 @@
-﻿using Consumer.DB;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Consumer.Repository
 {
-    public abstract class GenericRepository<T> : IRepository<T> where T : class
+    public abstract class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected TimestampContext context;
-        public GenericRepository(TimestampContext context)
+        protected readonly DbContext Context;
+        public GenericRepository(DbContext context)
         {
-            this.context = context;
+            Context = context;
         }
 
-        async Task IRepository<T>.Add(T entity)
+        public void Add(TEntity entity)
         {
-            await context.Set<T>().AddAsync(entity);
-            await context.SaveChangesAsync();
+            Context.Add(entity);
         }
 
-        async Task<T> IRepository<T>.Get(Guid id)
+        public void Remove(TEntity entity)
         {
-            return await context.Set<T>().FindAsync(id);
+            Context.Remove(entity);
         }
 
-        Task IRepository<T>.Update(T entity)
+        public TEntity Get(Guid id)
         {
-            context.Update(entity);
-            return context.SaveChangesAsync();
+            return Context.Set<TEntity>().Find(id);
         }
 
-        Task IRepository<T>.Delete(T entity)
+        public IEnumerable<TEntity> GetAll()
         {
-            context.Set<T>().Remove(entity);
-            return context.SaveChangesAsync();
-        }
-
-        async Task IRepository<T>.SaveChanges()
-        {
-            await context.SaveChangesAsync();
+            return Context.Set<TEntity>().ToList();
         }
     }
 }

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Consumer.Repository
 {
     public interface IRepository<T>
     {
-        Task Add(T entity);
-        Task<T> Get(Guid id);
+        void Add(T entity);
+        T Get(Guid id);
 
-        Task Update(T entity);
-        Task Delete(T entity);
+        IEnumerable<T> GetAll();
 
-        Task SaveChanges();
+        void Remove(T entity);
+
     }
 }

@@ -10,20 +10,12 @@ namespace Consumer.Utility
     {
         public static bool TimeStampShouldSave(DateTime dateTime, DateTime dateTime1)
         {
-
-            if (dateTime1.Subtract(dateTime) > TimeSpan.FromMinutes(1)) return false;
-
-            if (dateTime1.Second % 2 == 0) return true;
-
-            return false;
-
+            return  dateTime1.Subtract(dateTime) > TimeSpan.FromMinutes(1);
         }
 
-        public static bool TimeStampShouldPublish(DateTime dateTime, DateTime dateTime1)
+        public static bool TimeStampShouldPublish(DateTime dateTime)
         {
-
-            return dateTime1.Subtract(dateTime) > TimeSpan.FromSeconds(1);
-
+            return dateTime.Second % 2 == 0;
         }
     }
 }

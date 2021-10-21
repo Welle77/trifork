@@ -1,6 +1,7 @@
 ﻿using Consumer.Controllers;
 using Consumer.DB;
 using Consumer.Repository;
+using Consumer.Repository.Timestamps;
 using Consumer.Utility;
 using RabbitMQ.Client;
 using System;
@@ -18,29 +19,31 @@ namespace Consumer
 
         static void Main(string[] args)
         {
-            var timestampRepository = new TimestampRepository(new TimestampContext());
-            var consumer = new ConsumerConnectionFactory("amqp://guest:guest@localhost:5672");
+            var context = new TimestampContext();
+            var timestampRepository = new TimestampRepository(context);
+            var UOW = new UnitOfWork(context);
+
             const string queue = "logger";
+            var consumer = new ConsumerConnectionFactory("amqp://guest:guest@localhost:5672");
             var consumerController = new ConsumerController(consumer.connectionFactory, queue);
-            var timestampDBHandler = new TimestampDBHandler(timestampRepository);
 
-            consumerController.SubscribeToTimeStampEvent(async (obj, e) =>
-            {
-                var body = e.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine("Recieved Timestamp: {0}", message);
-                var dateTime = DateTime.Parse(message);
+            consumerController.SubscribeToTimeStampEvent((obj, e) =>
+           {
+               var body = e.Body.ToArray();
+               var message = Encoding.UTF8.GetString(body);
+               var dateTime = DateTime.Parse(message);
 
-                if (TimestampUtility.TimeStampShouldSave(DateTime.Parse(message), DateTime.Now))
-                {
-                    await timestampDBHandler.AddTimeStampAsync(new Timestamp(dateTime));
-                }
-                else
-                {
-                    if (TimestampUtility.TimeStampShouldPublish(dateTime, DateTime.Now))
-                        consumerController.PublishMessage(DateTime.Now.ToString());
-                }
-            });
+               if (TimestampUtility.TimeStampShouldSave(DateTime.Parse(message), DateTime.Now))
+               {
+                   timestampRepository.Add(new Timestamp(dateTime));
+                   UOW.CompleteTransaction();
+               }
+               else
+               {
+                   if (TimestampUtility.TimeStampShouldPublish(DateTime.Parse(message)))
+                       consumerController.PublishMessage(DateTime.Now.ToString());
+               }
+           });
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
