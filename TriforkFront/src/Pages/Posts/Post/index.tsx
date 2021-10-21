@@ -42,7 +42,7 @@ const Post = (props: Props) => {
         );
         setComments(comment);
       } catch (error) {
-        console.log("40* thrown backend");
+        console.log("40* thrown backend", error);
       }
     };
 
