@@ -17,9 +17,11 @@ const Posts = (props: Props) => {
   }, []);
 
   return (
-    <div style={{ justifyContent: "center" }}>
+    <div style={{ margin: "1rem" }}>
       {posts.map((post) => (
-        <Post key={post.id} post={post}></Post>
+        <div key={post.id} style={{ margin: "0.5rem" }}>
+          <Post post={post}></Post>
+        </div>
       ))}
     </div>
   );

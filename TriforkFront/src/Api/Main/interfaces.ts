@@ -36,3 +36,17 @@ export interface IComment {
   email: string;
   body: string;
 }
+
+export interface IAlbum {
+  id: number;
+  title: string;
+  userId: number;
+}
+
+export interface IPhoto {
+  id: number;
+  albumId: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+}

@@ -1,5 +1,6 @@
 import { RouteProps } from "react-router-dom";
 import Albums from "../../Pages/Albums";
+import AlbumPage from "../../Pages/Albums/AlbumPage";
 import NotFound from "../../Pages/NotFound";
 import Posts from "../../Pages/Posts";
 
@@ -17,6 +18,12 @@ const publicRoutes: AuthenticatedRouteProps[] = [
   {
     path: "/albums",
     component: Albums,
+    isPrivate: false,
+    exact: true,
+  },
+  {
+    path: "/albums/:id",
+    component: AlbumPage,
     isPrivate: false,
     exact: true,
   },
