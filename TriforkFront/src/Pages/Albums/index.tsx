@@ -9,8 +9,12 @@ const Albums = (props: Props) => {
 
   useEffect(() => {
     const getAlbums = async () => {
-      const { data: albumsData } = await api.get<IAlbum[]>("/albums");
-      setAlbums(albumsData.slice(15, 25));
+      try {
+        const { data: albumsData } = await api.get<IAlbum[]>("/albums");
+        setAlbums(albumsData.slice(15, 25));
+      } catch (error) {
+        console.log("40* thrown backend", error);
+      }
     };
 
     getAlbums();

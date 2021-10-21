@@ -9,8 +9,12 @@ const Posts = (props: Props) => {
 
   useEffect(() => {
     const getPosts = async () => {
-      const { data } = await api.get<IPost[]>("/posts");
-      setPosts(data.slice(12, 22));
+      try {
+        const { data } = await api.get<IPost[]>("/posts");
+        setPosts(data.slice(12, 22));
+      } catch (error) {
+        console.log("40* thrown backend", error);
+      }
     };
 
     getPosts();

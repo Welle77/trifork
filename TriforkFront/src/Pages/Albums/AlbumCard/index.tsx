@@ -11,8 +11,12 @@ const AlbumCard = (props: Props) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await api.get<IUser>(`/users/${userId}`);
-      setUser(data);
+      try {
+        const { data, status } = await api.get<IUser>(`/users/${userId}`);
+        if (status === 200) setUser(data);
+      } catch (error) {
+        console.log("40* thrown backend", error);
+      }
     };
     getUser();
   }, [userId]);

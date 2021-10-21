@@ -10,8 +10,12 @@ const AlbumPage = () => {
 
   useEffect(() => {
     const getPhotos = async () => {
-      const { data } = await api.get<IPhoto[]>(`photos?albumId=${id}`);
-      setPhotos(data);
+      try {
+        const { data } = await api.get<IPhoto[]>(`photos?albumId=${id}`);
+        setPhotos(data);
+      } catch (error) {
+        console.log("40* thrown backend", error);
+      }
     };
     getPhotos();
   }, [id]);

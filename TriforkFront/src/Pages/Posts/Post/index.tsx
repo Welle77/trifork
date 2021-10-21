@@ -33,13 +33,17 @@ const Post = (props: Props) => {
 
   useEffect(() => {
     const getPostData = async () => {
-      const { data: user } = await api.get<IUser>(`/users/${userId}`);
-      setUser(user);
+      try {
+        const { data: user } = await api.get<IUser>(`/users/${userId}`);
+        setUser(user);
 
-      const { data: comment } = await api.get<IComment[]>(
-        `posts/${id}/comments`
-      );
-      setComments(comment);
+        const { data: comment } = await api.get<IComment[]>(
+          `posts/${id}/comments`
+        );
+        setComments(comment);
+      } catch (error) {
+        console.log("40* thrown backend");
+      }
     };
 
     getPostData();
