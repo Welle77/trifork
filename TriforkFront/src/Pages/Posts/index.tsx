@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import api from "../../Api/main";
-import { IPost, Props } from "./interfaces";
+import api from "../../Api/Main";
+import { IPost } from "../../Api/Main/interfaces";
+import { Props } from "./interfaces";
 import Post from "./Post";
 
 const Posts = (props: Props) => {
@@ -9,7 +10,7 @@ const Posts = (props: Props) => {
   useEffect(() => {
     const getPosts = async () => {
       const { data } = await api.get<IPost[]>("/posts");
-      setPosts(data);
+      setPosts(data.slice(12, 22));
     };
 
     getPosts();
@@ -18,9 +19,7 @@ const Posts = (props: Props) => {
   return (
     <div style={{ justifyContent: "center" }}>
       {posts.map((post) => (
-        <div style={{ margin: "1rem" }}>
-          <Post post={post}></Post>
-        </div>
+        <Post key={post.id} post={post}></Post>
       ))}
     </div>
   );
