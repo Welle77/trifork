@@ -27,21 +27,37 @@ namespace Consumer
             var consumer = new ConsumerConnectionFactory("amqp://guest:guest@localhost:5672");
             var consumerController = new ConsumerController(consumer.connectionFactory, queue);
 
-            consumerController.SubscribeToTimeStampEvent((obj, e) =>
+            consumerController.SubscribeToTimeStampEvent((obj, eventArgs) =>
            {
-               var body = e.Body.ToArray();
+               var body = eventArgs.Body.ToArray();
                var message = Encoding.UTF8.GetString(body);
                var dateTime = DateTime.Parse(message);
 
                if (TimestampUtility.TimeStampShouldSave(DateTime.Parse(message), DateTime.Now))
                {
-                   timestampRepository.Add(new Timestamp(dateTime));
-                   UOW.CompleteTransaction();
+                   try
+                   {
+                       timestampRepository.Add(new Timestamp(dateTime));
+                       UOW.CompleteTransaction();
+                   }
+                   catch (Exception error)
+                   {
+                       Console.WriteLine(error.Message);
+                   }
+
                }
                else
                {
-                   if (TimestampUtility.TimeStampShouldPublish(DateTime.Parse(message)))
-                       consumerController.PublishMessage(DateTime.Now.ToString());
+                   try
+                   {
+                       if (TimestampUtility.TimeStampShouldPublish(DateTime.Parse(message)))
+                           consumerController.PublishMessage(DateTime.Now.ToString());
+                   }
+                   catch (Exception error)
+                   {
+                       Console.WriteLine(error);
+                   }
+
                }
            });
 
