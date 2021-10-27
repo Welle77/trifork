@@ -14,4 +14,4 @@ C:\Users\simon\Source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\Produc
 C:\Users\simon\Source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\ref\Producer.dll
 C:\Users\simon\Source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\Producer.pdb
 C:\Users\simon\Source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\Producer.genruntimeconfig.cache
-C:\Users\simon\Source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\Producer.csproj.CopyComplete
+C:\Users\simon\source\Repos\trifork\TriforkBack\Producer\obj\Debug\net5.0\Producer.csproj.AssemblyReference.cache

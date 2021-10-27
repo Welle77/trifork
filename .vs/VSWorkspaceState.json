@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\TriforkBack"
+    "\\TriforkBack",
+    "\\TriforkBack\\Consumer"
   ],
-  "SelectedNode": "\\TriforkBack\\Triforkv0.sln",
+  "SelectedNode": "\\TriforkBack\\Consumer\\ConsumerConnectionFactory.cs",
   "PreviewInSolutionExplorer": false
 }

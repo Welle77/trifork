@@ -3,7 +3,6 @@ using System;
 using System.Text;
 using System.Threading;
 
-
 namespace Producer
 {
     class Producer
@@ -23,7 +22,7 @@ namespace Producer
                         string message = DateTime.Now.ToString();
                         var body = Encoding.UTF8.GetBytes(message);
                         channel.BasicPublish(exchange: "", routingKey: "logger", props, body: body);
-                        Thread.Sleep(5000);
+                        Thread.Sleep(1000);
                     }
                 }
             }

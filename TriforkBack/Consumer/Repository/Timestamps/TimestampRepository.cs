@@ -1,4 +1,5 @@
 ﻿using Consumer.DB;
+using System;
 
 namespace Consumer.Repository.Timestamps
 {
@@ -8,6 +9,13 @@ namespace Consumer.Repository.Timestamps
         {
 
         }
+
+        public override void Add(Timestamp entity)
+        {
+            if (new DateTime().Subtract(entity.Stamp) < TimeSpan.FromMinutes(1))
+                Context.Add(entity);
+        }
+
         //Overwrites can be made here.
     }
 }
